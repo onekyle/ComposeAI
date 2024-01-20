@@ -1,7 +1,7 @@
 package analytics
 
-import com.google.firebase.crashlytics.ktx.crashlytics
-import com.google.firebase.ktx.Firebase
+//import com.google.firebase.crashlytics.ktx.crashlytics
+//import com.google.firebase.ktx.Firebase
 import io.github.aakira.napier.Antilog
 import io.github.aakira.napier.LogLevel
 
@@ -13,17 +13,17 @@ class CrashlyticsAntilog : Antilog() {
         message: String?
     ) {
         // send only error log
-        if (priority < LogLevel.ERROR) return
+//        if (priority < LogLevel.ERROR) return
 
-        throwable?.let {
-            when (it) {
-                // e.g. http exception, add a customized your exception message
-//                is KtorException -> {
-//                    FirebaseCrashlytics.getInstance()
-//                        .log("${priority.ordinal}, HTTP Exception, ${it.response?.errorBody}")
-//                }
-                else -> Firebase.crashlytics.recordException(it)
-            }
-        }
+//        throwable?.let {
+//            when (it) {
+//                // e.g. http exception, add a customized your exception message
+////                is KtorException -> {
+////                    FirebaseCrashlytics.getInstance()
+////                        .log("${priority.ordinal}, HTTP Exception, ${it.response?.errorBody}")
+////                }
+//                else -> Firebase.crashlytics.recordException(it)
+//            }
+//        }
     }
 }

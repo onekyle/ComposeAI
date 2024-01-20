@@ -34,9 +34,9 @@ kotlin {
         }
         extraSpecAttributes["resources"] = "['src/commonMain/resources/**', 'src/iosMain/resources/**']"
 
-        pod("FirebaseAnalytics") {
-            version = "~> 10.13"
-        }
+//        pod("FirebaseAnalytics") {
+//            version = "~> 10.13"
+//        }
     }
 
     sourceSets {
@@ -116,10 +116,10 @@ kotlin {
                 api(libs.core.splashscreen)
 
                 // Firebase
-                api(project.dependencies.platform(libs.firebase.bom))
-                api(libs.firebase.analytics.ktx)
-                api(libs.firebase.crashlytics.ktx)
-                api(libs.firebase.appcheck.playintegrity)
+//                api(project.dependencies.platform(libs.firebase.bom))
+//                api(libs.firebase.analytics.ktx)
+//                api(libs.firebase.crashlytics.ktx)
+//                api(libs.firebase.appcheck.playintegrity)
 
                 // AdMob
                 api(libs.play.services.ads)

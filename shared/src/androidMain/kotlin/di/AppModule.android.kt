@@ -2,8 +2,8 @@ package di
 
 import analytics.FirebaseAnalyticsHelper
 import analytics.StubAnalyticsHelper
-import com.google.firebase.analytics.ktx.analytics
-import com.google.firebase.ktx.Firebase
+//import com.google.firebase.analytics.ktx.analytics
+//import com.google.firebase.ktx.Firebase
 import data.billing.BillingDataSource
 import data.database.AppDatabase
 import data.database.DriverFactory
@@ -22,13 +22,13 @@ actual fun sharedPlatformModule(): Module = module {
     }
 
     // Firebase
-    single { Firebase.analytics }
+//    single { Firebase.analytics }
 
     // Analytics
     single {
         when(isDebug) {
             true -> StubAnalyticsHelper()
-            else -> FirebaseAnalyticsHelper(get())
+            else -> FirebaseAnalyticsHelper()
         }
     }
 

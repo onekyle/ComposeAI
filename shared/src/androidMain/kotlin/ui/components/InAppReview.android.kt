@@ -11,7 +11,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import com.google.android.play.core.review.ReviewManagerFactory
 import io.github.aakira.napier.Napier
-import kotlinx.coroutines.tasks.await
+//import kotlinx.coroutines.tasks.await
 
 actual class InAppReviewState(
     context: Context,
@@ -29,17 +29,26 @@ actual class InAppReviewState(
     suspend fun showAndroid(activity: Activity) {
         doShow = false
 
-        try {
-            Napier.d { "InAppReview: Requesting review flow" }
-
-            val reviewInfo = manager.requestReviewFlow().await()
-            manager.launchReviewFlow(activity, reviewInfo).await()
-            onComplete()
-
-            Napier.d { "InAppReview: Review flow completed" }
-        } catch (e: Exception) {
-            onError()
-            Napier.w { "InAppReview failed: $e" }
+        manager.requestReviewFlow().addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                // 我们已经得到了ReviewInfo对象
+                val reviewInfo = task.result
+                manager.launchReviewFlow(activity, reviewInfo).addOnCompleteListener { reviewTask ->
+                    if (reviewTask.isSuccessful) {
+                        // 启动评论流程成功
+                        onComplete()
+                        Napier.d { "InAppReview: Review flow completed" }
+                    } else {
+                        // 启动评论流程失败
+                        onError()
+                        Napier.w { "InAppReview failed: ${reviewTask.exception}" }
+                    }
+                }
+            } else {
+                // 请求ReviewInfo失败
+                onError()
+                Napier.w { "InAppReview failed: ${task.exception}" }
+            }
         }
     }
 }

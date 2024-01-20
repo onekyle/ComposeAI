@@ -16,8 +16,8 @@
 
 package analytics
 
-import com.google.firebase.analytics.FirebaseAnalytics
-import com.google.firebase.analytics.ktx.logEvent
+//import com.google.firebase.analytics.FirebaseAnalytics
+//import com.google.firebase.analytics.ktx.logEvent
 import io.github.aakira.napier.Napier
 
 private const val TAG = "FirebaseAnalyticsHelperAndroid"
@@ -26,25 +26,25 @@ private const val TAG = "FirebaseAnalyticsHelperAndroid"
  * Implementation of `AnalyticsHelper` which logs events to a Firebase backend.
  */
 class FirebaseAnalyticsHelper(
-    private val firebaseAnalytics: FirebaseAnalytics,
+//    private val firebaseAnalytics: FirebaseAnalytics,
 ) : AnalyticsHelper {
 
     override fun logEvent(event: AnalyticsEvent) {
-        firebaseAnalytics.logEvent(event.type) {
-            for (extra in event.extras) {
-                // Truncate parameter keys and values according to firebase maximum length values.
-                param(
-                    key = extra.key.take(40),
-                    value = extra.value.take(100),
-                )
-            }
-        }
-
+//        firebaseAnalytics.logEvent(event.type) {
+//            for (extra in event.extras) {
+//                // Truncate parameter keys and values according to firebase maximum length values.
+//                param(
+//                    key = extra.key.take(40),
+//                    value = extra.value.take(100),
+//                )
+//            }
+//        }
         Napier.d(message = "Received analytics event: $event", tag = TAG)
     }
 
+
     override fun setUserProperty(name: String, value: String) {
-        firebaseAnalytics.setUserProperty(name, value)
+//        firebaseAnalytics.setUserProperty(name, value)
         Napier.d(message = "Set user property: $name = $value", tag = TAG)
     }
 }
