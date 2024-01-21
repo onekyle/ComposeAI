@@ -62,9 +62,10 @@ kotlin {
 
                 // Resource
                 implementation(libs.resources)
-
                 // OpenAI
-                implementation(libs.openai.client)
+                implementation(libs.openai.kotlin)
+//                implementation("com.kylewych.openai:0.1.0")
+//                implementation("com.kylewych.openai:openai-client:0.1.0")
 
                 // Settings
                 implementation(libs.multiplatform.settings)
