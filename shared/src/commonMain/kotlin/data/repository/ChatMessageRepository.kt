@@ -61,6 +61,7 @@ class ChatMessageRepository(
 
         // Save user message
         val userMessage = ChatMessage(role = ChatRole.User, content = contentMessage)
+        // KYLE AI TODO:
         chatMessageQueries.insertChatMessage(
             id = uuid4().toString(),
             role = userMessage.role,
