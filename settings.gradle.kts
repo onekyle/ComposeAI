@@ -22,6 +22,7 @@ rootProject.name = "ComposeAI"
 include(":androidApp")
 include(":shared")
 includeBuild("local_project/openai-kotlin")
+
 //include(":openai-core")
 //project(":openai-core").projectDir = File("local_project/openai-kotlin/openai-core")
 //include(":openai-client")

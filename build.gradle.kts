@@ -14,8 +14,13 @@ buildscript {
     dependencies {
         classpath(libs.buildkonfig.gradle.plugin)
         classpath(libs.gradle.plugin)
-
 //        classpath(libs.google.services)
 //        classpath(libs.firebase.crashlytics.gradle)
+    }
+}
+
+configurations.all {
+    resolutionStrategy.dependencySubstitution {
+        substitute(module("com.aallam.openai:openai-client")).using(project("openai-client"))
     }
 }
