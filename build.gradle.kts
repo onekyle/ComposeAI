@@ -18,9 +18,3 @@ buildscript {
 //        classpath(libs.firebase.crashlytics.gradle)
     }
 }
-
-configurations.all {
-    resolutionStrategy.dependencySubstitution {
-        substitute(module("com.aallam.openai:openai-client")).using(project("openai-client"))
-    }
-}

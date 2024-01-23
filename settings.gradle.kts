@@ -21,9 +21,12 @@ dependencyResolutionManagement {
 rootProject.name = "ComposeAI"
 include(":androidApp")
 include(":shared")
-includeBuild("local_project/openai-kotlin")
 
-//include(":openai-core")
-//project(":openai-core").projectDir = File("local_project/openai-kotlin/openai-core")
-//include(":openai-client")
-//project(":openai-client").projectDir = File("local_project/openai-kotlin/openai-client")
+
+
+includeBuild("local_project/openai-kotlin") {
+    dependencySubstitution{
+        substitute(module("com.aallam.openai:openai-core")).using(project(":openai-core"))
+        substitute(module("com.aallam.openai:openai-client")).using(project(":openai-client"))
+    }
+}
