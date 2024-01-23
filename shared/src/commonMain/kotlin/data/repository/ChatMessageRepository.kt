@@ -3,13 +3,13 @@ package data.repository
 import analytics.AnalyticsHelper
 import analytics.logMessageReceived
 import analytics.logMessageSent
-import analytics.setUserTotalMessages
 import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToList
 import app.cash.sqldelight.coroutines.mapToOne
-import com.aallam.openai.api.chat.ChatCompletionRequest
+import com.aallam.openai.api.baichuan.BCCharacter
 import com.aallam.openai.api.chat.ChatMessage
 import com.aallam.openai.api.chat.ChatRole
+import com.aallam.openai.api.chat.chatCompletionRequest
 import com.aallam.openai.api.model.ModelId
 import com.aallam.openai.client.OpenAI
 import com.benasher44.uuid.uuid4
@@ -94,22 +94,23 @@ class ChatMessageRepository(
     suspend fun generateTitleFromChat(
         chatId: String,
     ): Result<String> = suspendRunCatching(defaultDispatcher) {
-        val instruction = ChatMessage(
-            role = ChatRole.System,
-            content = "What would be a short and relevant title for this chat? You must strictly answer with only the title, no other text is allowed.",
-        )
-
-        val messages = chatMessageQueries.getChatMessagesWithChatId(chatId)
-            .executeAsList()
-            .map(ChatMessageEntity::asModel)
-
-        val request = ChatCompletionRequest(
-            model = ModelId("gpt-3.5-turbo"),
-            messages = messages + instruction,
-        )
-
-        val response = openAI.chatCompletion(request)
-        response.choices.first().message?.content ?: "?"
+        "?"
+//        val instruction = ChatMessage(
+//            role = ChatRole.System,
+//            content = "What would be a short and relevant title for this chat? You must strictly answer with only the title, no other text is allowed.",
+//        )
+//
+//        val messages = chatMessageQueries.getChatMessagesWithChatId(chatId)
+//            .executeAsList()
+//            .map(ChatMessageEntity::asModel)
+//
+//        val request = ChatCompletionRequest(
+//            model = ModelId("gpt-3.5-turbo"),
+//            messages = messages + instruction,
+//        )
+//
+//        val response = openAI.chatCompletion(request)
+//        response.choices.first().message?.content ?: "?"
     }
 
     /**
@@ -137,10 +138,11 @@ class ChatMessageRepository(
         )
 
         // Create request to OpenAI
-        val request = ChatCompletionRequest(
-            model = ModelId("gpt-3.5-turbo"),
-            messages = messagesToSend,
-        )
+        val request = chatCompletionRequest {
+            model = ModelId("Baichuan-NPC-Turbo")
+            characterProfile = BCCharacter.character(id = 20306)
+            messages = messagesToSend
+        }
 
         // Get assistant response
         var assistantMessage = ""
@@ -156,26 +158,26 @@ class ChatMessageRepository(
                     )
                 }
             }
-
-            // Update assistant message status to sent
+//
+//            // Update assistant message status to sent
             chatMessageQueries.updateChatMessageStatus(
                 id = assistantMessageId,
                 status = ChatMessageStatus.SENT,
             )
-
-            // Consume one token
-            if (billingRepository.isSubToUnlimited.value.not()) {
-                coinRepository.useCoins(remove = 1)
-            }
-
-            // Report OpenAI tokens used
-            val totalMessages = preferences.incrementMessages()
-            analyticsHelper.setUserTotalMessages(totalMessages)
-
-            // Log message received
+//
+//            // Consume one token
+//            if (billingRepository.isSubToUnlimited.value.not()) {
+//                coinRepository.useCoins(remove = 1)
+//            }
+//
+//            // Report OpenAI tokens used
+//            val totalMessages = preferences.incrementMessages()
+//            analyticsHelper.setUserTotalMessages(totalMessages)
+//
+//            // Log message received
             analyticsHelper.logMessageReceived(receivedSuccessfully = true)
-
-            // Return number of messages sent by the user in this chat
+//
+//            // Return number of messages sent by the user in this chat
             return chatMessageQueries.countChatMessagesWithChatId(
                 chatId = chatId,
                 role = ChatRole.User,
