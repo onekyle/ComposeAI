@@ -22,7 +22,7 @@ class AppScreenModel : KoinComponent {
 
     init {
         coroutineScope.launch {
-            val welcomeShown = preferenceRepository.welcomeShown()
+            val welcomeShown = true
             uiState = AppScreenUiState.Success(isWelcomeShown = welcomeShown)
         }
     }

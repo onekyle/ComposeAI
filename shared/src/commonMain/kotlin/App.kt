@@ -1,3 +1,4 @@
+
 import AppScreenUiState.Loading
 import AppScreenUiState.Success
 import analytics.AnalyticsHelper
@@ -18,7 +19,6 @@ import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.bottomSheet.BottomSheetNavigator
 import ui.screens.chat.ChatScreen
-import ui.screens.welcome.WelcomeScreen
 import ui.theme.AppTheme
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -34,10 +34,7 @@ fun App(
     val screen = appScreenModel.uiState.let { uiState ->
         when (uiState) {
             Loading -> null
-            is Success -> when (uiState.isWelcomeShown) {
-                true -> ChatScreen
-                false -> WelcomeScreen
-            }
+            is Success -> ChatScreen
         }
     }
 
