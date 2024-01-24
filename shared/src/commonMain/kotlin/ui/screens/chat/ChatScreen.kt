@@ -73,11 +73,13 @@ import com.ebfstudio.appgpt.common.MainRes
 import di.getScreenModel
 import expect.showPlatformSpecificAlert
 import kotlinx.coroutines.launch
+import model.User
 import org.koin.core.parameter.parametersOf
 import ui.components.TypewriterText
 import ui.components.rememberInAppReviewState
 import ui.screens.bank.BankScreen
 import ui.screens.chat.components.Messages
+import ui.screens.chat.components.header.MessageListHeader
 
 internal object ChatScreen : Screen {
 
@@ -228,14 +230,12 @@ internal object ChatScreen : Screen {
 
         Scaffold(
             topBar = {
-                ChatTopBar(
-                    chatTitle = currentChatUiState.chatOrNull?.title,
-                    showTopBarActions = showTopBarActions,
-                    onNewChat = {
-                        onNewChat()
-                        focusRequester.requestFocus()
+                MessageListHeader(
+                    currentUser = User(name = "阿罗哈", icon = "https://commercial-character-platform.oss-cn-beijing.aliyuncs.com/ea9b134170ca168b842c2070dSnipaste_2024-01-10_14-10-30.png"),
+                    onBackPressed = {
+
                     },
-                    onClearChat = {
+                    onChannelAvatarClick = {
                         showPlatformSpecificAlert(
                             title = "清除",
                             message = "你确定要清除聊天内容吗?",
@@ -245,8 +245,8 @@ internal object ChatScreen : Screen {
                             }
                         )
                     },
-                    onMenuClick = onMenuClick,
                 )
+
             },
             bottomBar = {
                 ChatBottomBar(

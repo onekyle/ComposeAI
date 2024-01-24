@@ -65,13 +65,6 @@ kotlin {
                 // OpenAI
                 implementation("com.aallam.openai:openai-core:3.6.3")
                 implementation("com.aallam.openai:openai-client:3.6.3")
-//                api("com.aallam:openai-client:0.1.0")
-//                implementation("com.aallam.openai:openai-core:0.1.0")
-//                implementation("com.aallam.openai:openai-client:0.1.0")
-//                implementation(project("../local_project/openai-kotlin"))
-//                implementation(libs.openai.kotlin)
-//                implementation("com.kylewych.openai:0.1.0")
-//                implementation("com.kylewych.openai:openai-client:0.1.0")
 
                 // Settings
                 implementation(libs.multiplatform.settings)
