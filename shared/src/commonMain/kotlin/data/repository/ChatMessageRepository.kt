@@ -91,6 +91,10 @@ class ChatMessageRepository(
             sendReceiveAndSaveAI(chatId = chatId)
         }
 
+    fun deleteChatWindow(chatId: String) {
+        chatMessageQueries.deleteChatMessageWithChatId(chatId)
+    }
+
     suspend fun generateTitleFromChat(
         chatId: String,
     ): Result<String> = suspendRunCatching(defaultDispatcher) {

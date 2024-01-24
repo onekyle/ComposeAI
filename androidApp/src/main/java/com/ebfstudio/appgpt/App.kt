@@ -1,16 +1,17 @@
 package com.ebfstudio.appgpt
 
-import analytics.CrashlyticsAntilog
-import android.app.Application
-import com.ebfstudio.appgpt.common.BuildConfig
-import com.google.android.gms.ads.MobileAds
 //import com.google.firebase.FirebaseApp
 //import com.google.firebase.analytics.ktx.analytics
 //import com.google.firebase.appcheck.FirebaseAppCheck
 //import com.google.firebase.appcheck.playintegrity.PlayIntegrityAppCheckProviderFactory
 //import com.google.firebase.crashlytics.ktx.crashlytics
 //import com.google.firebase.ktx.Firebase
+import analytics.CrashlyticsAntilog
+import android.app.Application
+import com.ebfstudio.appgpt.common.BuildConfig
+import com.google.android.gms.ads.MobileAds
 import di.initKoin
+import expect.ContextProvider
 import io.github.aakira.napier.DebugAntilog
 import io.github.aakira.napier.Napier
 import org.koin.android.ext.koin.androidContext
@@ -21,6 +22,7 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
 
+        ContextProvider.initialize(this)
         appContextForImagesMP = this@App
 
         // Init App Check

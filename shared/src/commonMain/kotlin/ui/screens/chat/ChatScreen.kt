@@ -8,13 +8,11 @@ import androidx.compose.animation.core.updateTransition
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -28,7 +26,6 @@ import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.ChatBubble
 import androidx.compose.material.icons.rounded.ChatBubbleOutline
 import androidx.compose.material.icons.rounded.Forum
-import androidx.compose.material.icons.rounded.GeneratingTokens
 import androidx.compose.material.icons.rounded.Send
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.Divider
@@ -76,15 +73,11 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.bottomSheet.LocalBottomSheetNavigator
 import com.ebfstudio.appgpt.common.MainRes
 import di.getScreenModel
-import expect.platform
+import expect.showPlatformSpecificAlert
 import kotlinx.coroutines.launch
-import model.AppPlatform
-import org.jetbrains.compose.resources.painterResource
 import org.koin.core.parameter.parametersOf
-import ui.components.AnimatedCounter
 import ui.components.TypewriterText
 import ui.components.rememberInAppReviewState
-import ui.images.AppImages
 import ui.screens.bank.BankScreen
 import ui.screens.chat.components.Messages
 
@@ -112,6 +105,7 @@ internal object ChatScreen : Screen {
         ChatScreen(
             onSend = screenModel::onSendMessage,
             onNewChat = screenModel::onNewChat,
+            onClearChat = screenModel::onClearChat,
             onRetry = screenModel::onRetrySendMessage,
             onChatSelected = screenModel::onChatSelected,
             onTextChange = screenModel::onTextChange,
@@ -130,6 +124,7 @@ internal object ChatScreen : Screen {
     private fun ChatScreen(
         onSend: () -> Unit,
         onNewChat: () -> Unit,
+        onClearChat: () -> Unit,
         onRetry: () -> Unit,
         onChatSelected: (String) -> Unit,
         onTextChange: (String) -> Unit,
@@ -159,6 +154,7 @@ internal object ChatScreen : Screen {
                             )
                         }
                     },
+
                 ) {
                     ChatScreenContent(
                         showTopBarActions = true,
@@ -168,6 +164,7 @@ internal object ChatScreen : Screen {
                         onSend = onSend,
                         onRetry = onRetry,
                         onNewChat = onNewChat,
+                        onClearChat = onClearChat,
                         screenUiState = screenUiState,
                         currentChatUiState = currentChatUiState,
                         onMenuClick = { scope.launch { drawerState.open() } },
@@ -201,6 +198,7 @@ internal object ChatScreen : Screen {
                             onSend = onSend,
                             onRetry = onRetry,
                             onNewChat = onNewChat,
+                            onClearChat = onClearChat,
                             screenUiState = screenUiState,
                             currentChatUiState = currentChatUiState,
                             onMenuClick = { scope.launch { drawerState.open() } },
@@ -221,6 +219,7 @@ internal object ChatScreen : Screen {
         onSend: () -> Unit,
         onRetry: () -> Unit,
         onNewChat: () -> Unit,
+        onClearChat: () -> Unit,
         onMenuClick: () -> Unit,
         onClickCopy: (String) -> Unit,
         onClickShare: (String) -> Unit,
@@ -238,6 +237,16 @@ internal object ChatScreen : Screen {
                         onNewChat()
                         focusRequester.requestFocus()
                     },
+                    onClearChat = {
+                        showPlatformSpecificAlert(
+                            title = "清除",
+                            message = "你确定要清除聊天内容吗?",
+                            onConfirm = {
+                                onClearChat()
+                                focusRequester.requestFocus()
+                            }
+                        )
+                    },
                     onMenuClick = onMenuClick,
                 )
             },
@@ -253,6 +262,7 @@ internal object ChatScreen : Screen {
                 )
             },
             modifier = modifier,
+            containerColor = Color(0xFFF7F7F8),
         ) { contentPadding ->
             Column(modifier = Modifier.padding(contentPadding)) {
                 when (currentChatUiState) {
@@ -335,6 +345,7 @@ internal object ChatScreen : Screen {
         chatTitle: String?,
         showTopBarActions: Boolean,
         onNewChat: () -> Unit,
+        onClearChat: () -> Unit,
         onMenuClick: () -> Unit,
     ) {
         CenterAlignedTopAppBar(
@@ -360,14 +371,23 @@ internal object ChatScreen : Screen {
             actions = {
                 // New chat button
                 if (showTopBarActions) {
-                    IconButton(
-                        onClick = onNewChat,
+                    TextButton(
+                        onClick = onClearChat,
                     ) {
-                        Icon(
-                            Icons.Rounded.Add,
-                            contentDescription = null,
+                        Text(
+                            text = "清除",
+                            color = Color.Black,
+                            fontWeight = FontWeight.Bold
                         )
                     }
+//                    IconButton(
+//                        onClick = onClearChat,
+//                    ) {
+//                        Icon(
+//                            Icons.Rounded.Clear,
+//                            contentDescription = null,
+//                        )
+//                    }
                 }
             }
         )
@@ -406,7 +426,10 @@ internal object ChatScreen : Screen {
             }
         }
 
-        Surface {
+        Surface(
+            color = Color.White
+//            shadowElevation = 4.dp
+        ) {
             Column {
                 AnimatedVisibility(
                     visible = isLoading,
@@ -420,51 +443,52 @@ internal object ChatScreen : Screen {
                     )
                 }
                 Row(
-                    modifier = Modifier.padding(8.dp),
+                    modifier = Modifier
+                        .padding(start = 8.dp, top = 8.dp, end = 8.dp, bottom = 20.dp), // 设置边距
                     verticalAlignment = Alignment.Bottom,
                 ) {
                     // Rewards button
-                    if (platform() == AppPlatform.ANDROID) {
-                        AnimatedVisibility(text.isEmpty()) {
-                            if (isSubToUnlimited.not()) {
-                                TextButton(
-                                    onClick = { bottomSheetNavigator.show(BankScreen) },
-                                    modifier = Modifier.padding(end = 8.dp)
-                                ) {
-                                    Icon(
-                                        Icons.Rounded.GeneratingTokens,
-                                        contentDescription = null,
-                                    )
-                                    Spacer(Modifier.width(4.dp))
-                                    AnimatedCounter(
-                                        count = coins,
-                                        fontWeight = FontWeight.Bold
-                                    )
-                                }
-                            } else {
-                                IconButton(
-                                    onClick = { bottomSheetNavigator.show(BankScreen) },
-                                    modifier = Modifier.padding(end = 8.dp)
-                                ) {
-                                    Image(
-                                        painter = painterResource(AppImages.verified),
-                                        contentDescription = "Verified",
-                                        modifier = Modifier.size(24.dp),
-                                    )
-                                }
-                            }
-                        }
-                    }
+//                    if (platform() == AppPlatform.ANDROID) {
+//                        AnimatedVisibility(text.isEmpty()) {
+//                            if (isSubToUnlimited.not()) {
+//                                TextButton(
+//                                    onClick = { bottomSheetNavigator.show(BankScreen) },
+//                                    modifier = Modifier.padding(end = 8.dp)
+//                                ) {
+//                                    Icon(
+//                                        Icons.Rounded.GeneratingTokens,
+//                                        contentDescription = null,
+//                                    )
+//                                    Spacer(Modifier.width(4.dp))
+//                                    AnimatedCounter(
+//                                        count = coins,
+//                                        fontWeight = FontWeight.Bold
+//                                    )
+//                                }
+//                            } else {
+//                                IconButton(
+//                                    onClick = { bottomSheetNavigator.show(BankScreen) },
+//                                    modifier = Modifier.padding(end = 8.dp)
+//                                ) {
+//                                    Image(
+//                                        painter = painterResource(AppImages.verified),
+//                                        contentDescription = "Verified",
+//                                        modifier = Modifier.size(24.dp),
+//                                    )
+//                                }
+//                            }
+//                        }
+//                    }
 
                     Surface(
                         shape = MaterialTheme.shapes.large,
-                        color = MaterialTheme.colorScheme.surfaceVariant,
+                        color = Color(0xFFE9EAED),
                         border = BorderStroke(
                             1.dp,
                             MaterialTheme.colorScheme.surfaceTint.copy(alpha = 0.12f)
                         ),
                         modifier = Modifier
-                            .defaultMinSize(minHeight = 48.dp)
+//                            .defaultMinSize(minHeight = 48.dp)
                             .weight(1f)
                     ) {
                         Box(

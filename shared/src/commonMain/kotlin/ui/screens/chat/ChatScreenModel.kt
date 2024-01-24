@@ -190,6 +190,13 @@ class ChatScreenModel(
         analyticsHelper.logCreateNewConversation()
     }
 
+    fun onClearChat() {
+        this.chatId.value?.let {
+            chatMessageRepository.deleteChatWindow(it)
+        }
+        onNewChat()
+    }
+
     fun onChatSelected(chatId: String) {
         this.chatId.update { chatId }
         analyticsHelper.logConversationSelected()
