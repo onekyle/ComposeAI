@@ -5,6 +5,6 @@ import kotlinx.coroutines.flow.StateFlow
 import model.AppProduct
 
 actual class BillingRepository {
-    actual val isSubToUnlimited: StateFlow<Boolean> = MutableStateFlow(false)
+    actual val isSubToUnlimited: StateFlow<Boolean> = MutableStateFlow(true)
     actual val unlimitedSubProduct: StateFlow<AppProduct?> = MutableStateFlow(null)
 }
