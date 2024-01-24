@@ -25,7 +25,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.ChatBubble
 import androidx.compose.material.icons.rounded.ChatBubbleOutline
-import androidx.compose.material.icons.rounded.Forum
 import androidx.compose.material.icons.rounded.Send
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.Divider
@@ -33,7 +32,6 @@ import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -357,17 +355,17 @@ internal object ChatScreen : Screen {
                     modifier = Modifier.padding(horizontal = 8.dp)
                 )
             },
-            navigationIcon = {
-                if (showTopBarActions.not()) return@CenterAlignedTopAppBar
-                IconButton(
-                    onClick = onMenuClick,
-                ) {
-                    Icon(
-                        Icons.Rounded.Forum,
-                        contentDescription = null,
-                    )
-                }
-            },
+//            navigationIcon = {
+//                if (showTopBarActions.not()) return@CenterAlignedTopAppBar
+//                IconButton(
+//                    onClick = onMenuClick,
+//                ) {
+//                    Icon(
+//                        Icons.Rounded.Forum,
+//                        contentDescription = null,
+//                    )
+//                }
+//            },
             actions = {
                 // New chat button
                 if (showTopBarActions) {
@@ -409,13 +407,13 @@ internal object ChatScreen : Screen {
         val transition = updateTransition(targetState = enableSend)
         val sendContainerColor by transition.animateColor { state ->
             when (state) {
-                true -> MaterialTheme.colorScheme.primary
+                true -> Color.Transparent
                 false -> Color.Transparent
             }
         }
         val sendContentColor by transition.animateColor { state ->
             when (state) {
-                true -> MaterialTheme.colorScheme.onPrimary
+                true -> Color.Blue
                 false -> MaterialTheme.colorScheme.onSurface.copy(alpha = 0.38f)
             }
         }

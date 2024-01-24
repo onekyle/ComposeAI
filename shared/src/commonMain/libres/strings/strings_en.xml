@@ -9,7 +9,7 @@
     <string name="welcome_button">Start to chat</string>
 
     <!-- ChatScreen -->
-    <string name="chat_textfield_hint">Ask me anything...</string>
+    <string name="chat_textfield_hint">聊点什么吧~...</string>
     <string name="chat_button_new">New chat</string>
     <string name="chat_title_empty">Empty chat</string>
 
