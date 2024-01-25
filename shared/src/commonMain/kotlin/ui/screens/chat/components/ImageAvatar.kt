@@ -10,12 +10,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import com.seiko.imageloader.rememberAsyncImagePainter
 
 @Composable
 public fun ImageAvatar(
     imageUrl: String,
+    painter: Painter? = null,
     modifier: Modifier = Modifier,
     shape: Shape = CircleShape,
     contentDescription: String? = null,
@@ -34,7 +36,7 @@ public fun ImageAvatar(
     Image(
         modifier = clickableModifier.clip(shape),
         contentScale = ContentScale.Crop,
-        painter = rememberAsyncImagePainter(imageUrl),
+        painter = painter ?: rememberAsyncImagePainter(imageUrl),
         contentDescription = contentDescription,
     )
 }

@@ -117,6 +117,7 @@ internal object ChatScreen : Screen {
                 localClipboardManager.setText(AnnotatedString(text))
                 screenModel.onMessageCopied()
             },
+            assistant = User(name = screenModel.chatUser.characterName ?: "", icon = screenModel.chatUser.characterIcon ?: "")
         )
     }
 
@@ -133,6 +134,7 @@ internal object ChatScreen : Screen {
         screenUiState: ChatScreenUiState,
         currentChatUiState: ChatMessagesUiState,
         chatsUiState: ChatsUiState,
+        assistant: User
     ) {
         val drawerState = rememberDrawerState(DrawerValue.Closed)
         val scope = rememberCoroutineScope()
@@ -168,6 +170,7 @@ internal object ChatScreen : Screen {
                         screenUiState = screenUiState,
                         currentChatUiState = currentChatUiState,
                         onMenuClick = { scope.launch { drawerState.open() } },
+                        assistant = assistant
                     )
                 }
             } else {
@@ -202,6 +205,7 @@ internal object ChatScreen : Screen {
                             screenUiState = screenUiState,
                             currentChatUiState = currentChatUiState,
                             onMenuClick = { scope.launch { drawerState.open() } },
+                            assistant = assistant
                         )
                     }
                 }
@@ -225,9 +229,9 @@ internal object ChatScreen : Screen {
         onClickShare: (String) -> Unit,
         onTextChange: (String) -> Unit,
         modifier: Modifier = Modifier,
+        assistant: User
     ) {
         val focusRequester = remember { FocusRequester() }
-        val assistant = User(name = "阿罗哈", icon = "https://commercial-character-platform.oss-cn-beijing.aliyuncs.com/ea9b134170ca168b842c2070dSnipaste_2024-01-10_14-10-30.png")
         Scaffold(
             topBar = {
                 MessageListHeader(

@@ -9,6 +9,7 @@ import analytics.logMessageCopied
 import analytics.logMessageShared
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.coroutineScope
+import com.aallam.openai.api.baichuan.BCCharacter
 import com.ebfstudio.appgpt.common.ChatEntity
 import com.ebfstudio.appgpt.common.ChatMessageEntity
 import com.ebfstudio.appgpt.common.GetAllChats
@@ -42,10 +43,13 @@ class ChatScreenModel(
     private val preferenceRepository: PreferenceRepository,
     private val analyticsHelper: AnalyticsHelper,
     initialChatId: String?,
+    var chatUser: BCCharacter
 ) : ScreenModel {
 
     private var chatId: MutableStateFlow<String?> =
         MutableStateFlow(initialChatId)
+
+//    private var user: BCCharacter = chatUser
 
     val screenUiState: MutableStateFlow<ChatScreenUiState> =
         MutableStateFlow(ChatScreenUiState())
@@ -144,7 +148,8 @@ class ChatScreenModel(
             // Send message
             val sendMessageResult = chatMessageRepository.sendMessage(
                 chatId = chatId,
-                contentMessage = contentText
+                contentMessage = contentText,
+                user = chatUser
             )
 
             // Stop loading
@@ -172,7 +177,7 @@ class ChatScreenModel(
             }
 
             // Retry send message
-            chatMessageRepository.retrySendMessage(chatId = chatId)
+            chatMessageRepository.retrySendMessage(chatId = chatId, user = chatUser)
 
             // Stop loading
             screenUiState.update {

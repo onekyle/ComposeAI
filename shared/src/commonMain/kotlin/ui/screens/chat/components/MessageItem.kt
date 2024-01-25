@@ -189,7 +189,7 @@ internal fun RowScope.DefaultMessageItemLeadingContent(
 ) {
     val modifier = Modifier
         .padding(start = 8.dp, end = 8.dp)
-        .size(24.dp)
+        .size(30.dp)
         .align(Alignment.Bottom)
 
     if (!messageItem.isMine &&
@@ -199,6 +199,7 @@ internal fun RowScope.DefaultMessageItemLeadingContent(
     ) {
         ImageAvatar(
             imageUrl = messageItem.currentUser?.icon ?: "",
+            painter = messageItem.assistantAvatar,
             modifier = modifier
         )
 

@@ -52,6 +52,7 @@ class ChatMessageRepository(
     suspend fun sendMessage(
         chatId: String,
         contentMessage: String,
+        user: BCCharacter,
     ): Result<Int> = suspendRunCatching(defaultDispatcher) {
         analyticsHelper.logMessageSent()
 
@@ -72,10 +73,10 @@ class ChatMessageRepository(
         )
 
         // Send message to OpenAI
-        sendReceiveAndSaveAI(chatId = chatId)
+        sendReceiveAndSaveAI(chatId = chatId, user = user)
     }
 
-    suspend fun retrySendMessage(chatId: String): Result<Int> =
+    suspend fun retrySendMessage(chatId: String, user: BCCharacter): Result<Int> =
         suspendRunCatching(defaultDispatcher) {
             analyticsHelper.logMessageSent(isRetry = true)
 
@@ -88,7 +89,7 @@ class ChatMessageRepository(
             }
 
             // Send message to OpenAI
-            sendReceiveAndSaveAI(chatId = chatId)
+            sendReceiveAndSaveAI(chatId = chatId, user = user)
         }
 
     fun deleteChatWindow(chatId: String) {
@@ -127,7 +128,7 @@ class ChatMessageRepository(
      * @param chatId Chat id
      * @return Number of messages sent by the user in this chat
      */
-    private suspend fun sendReceiveAndSaveAI(chatId: String): Int {
+    private suspend fun sendReceiveAndSaveAI(chatId: String, user: BCCharacter): Int {
         val messagesToSend = selectMessagesToSend(chatId)
 
         // Save empty assistant message
@@ -144,7 +145,7 @@ class ChatMessageRepository(
         // Create request to OpenAI
         val request = chatCompletionRequest {
             model = ModelId("Baichuan-NPC-Turbo")
-            characterProfile = BCCharacter.character(id = 20306)
+            characterProfile = user
             messages = messagesToSend
         }
 

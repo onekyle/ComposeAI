@@ -16,6 +16,7 @@
 
 package model
 
+import androidx.compose.ui.graphics.painter.Painter
 import com.ebfstudio.appgpt.common.ChatMessageEntity
 import kotlinx.datetime.Instant
 
@@ -54,9 +55,10 @@ public data class MessageItemState(
     public override val message: ChatMessageEntity = emptyChatMessageEntity(),
     public val parentMessageId: String? = null,
     public val isMine: Boolean = false,
+    public val currentUser: User? = null,
+    public val assistantAvatar: Painter? = null,
     public val isInThread: Boolean = false,
     public val showMessageFooter: Boolean = false,
-    public val currentUser: User? = null,
     public val isMessageRead: Boolean = false,
 ) : HasMessageListItemState()
 
