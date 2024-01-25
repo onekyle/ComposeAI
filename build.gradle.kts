@@ -18,3 +18,10 @@ buildscript {
 //        classpath(libs.firebase.crashlytics.gradle)
     }
 }
+
+allprojects {
+    // Some fix for Libres.
+    tasks.withType<ProcessResources>().configureEach {
+        mustRunAfter(":shared:libresGenerateImages")
+    }
+}
