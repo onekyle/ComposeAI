@@ -227,11 +227,11 @@ internal object ChatScreen : Screen {
         modifier: Modifier = Modifier,
     ) {
         val focusRequester = remember { FocusRequester() }
-
+        val assistant = User(name = "阿罗哈", icon = "https://commercial-character-platform.oss-cn-beijing.aliyuncs.com/ea9b134170ca168b842c2070dSnipaste_2024-01-10_14-10-30.png")
         Scaffold(
             topBar = {
                 MessageListHeader(
-                    currentUser = User(name = "阿罗哈", icon = "https://commercial-character-platform.oss-cn-beijing.aliyuncs.com/ea9b134170ca168b842c2070dSnipaste_2024-01-10_14-10-30.png"),
+                    currentUser = assistant,
                     onBackPressed = {
 
                     },
@@ -272,6 +272,7 @@ internal object ChatScreen : Screen {
                             Messages(
                                 messages = currentChatUiState.messages,
                                 conversationId = currentChatUiState.chat?.id ?: "?",
+                                assistant = assistant,
                                 onClickCopy = onClickCopy,
                                 onClickShare = onClickShare,
                                 onRetry = onRetry,

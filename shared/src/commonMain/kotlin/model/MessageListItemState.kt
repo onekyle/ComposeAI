@@ -51,7 +51,7 @@ public sealed class HasMessageListItemState : MessageListItemState() {
  * @param focusState The current [MessageFocusState] of the message, used to focus the message in the ui.
  */
 public data class MessageItemState(
-    public override val message: ChatMessageEntity = ChatMessageEntity(),
+    public override val message: ChatMessageEntity = emptyChatMessageEntity(),
     public val parentMessageId: String? = null,
     public val isMine: Boolean = false,
     public val isInThread: Boolean = false,

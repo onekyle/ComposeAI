@@ -43,6 +43,9 @@ import com.aallam.openai.api.chat.ChatRole
 import com.ebfstudio.appgpt.common.ChatMessageEntity
 import expect.platform
 import model.AppPlatform
+import model.ChatMessageStatus
+import model.MessageItemState
+import model.User
 import org.jetbrains.compose.resources.painterResource
 import ui.components.appImagePath
 import util.rememberHapticFeedback
@@ -51,6 +54,7 @@ import util.rememberHapticFeedback
 fun Messages(
     messages: List<ChatMessageEntity>,
     conversationId: String,
+    assistant: User,
     onClickCopy: (String) -> Unit,
     onClickShare: (String) -> Unit,
     onRetry: () -> Unit,
@@ -58,7 +62,7 @@ fun Messages(
     val reverseMessages = remember(messages) { messages.reversed() }
     val listState = rememberLazyListState()
     val hapticFeedback = rememberHapticFeedback()
-
+    val userMine = User(name = "我", icon = "")
     LazyColumn(
         state = listState,
         contentPadding = PaddingValues(all = 8.dp),
@@ -70,15 +74,26 @@ fun Messages(
             key = { _, item -> item.id },
             contentType = { _, item -> item.role },
         ) { index, chatMessage ->
-            MessageLine(
-                message = chatMessage,
-                conversationId = conversationId,
-                isLast = index == 0,
-                onClickCopy = onClickCopy,
-                onClickShare = onClickShare,
-                onRetry = onRetry,
-                hapticFeedback = hapticFeedback,
+
+            MessageItem(
+                messageItem = MessageItemState(
+                    message = chatMessage,
+                    currentUser = assistant,
+                    isMine = chatMessage.role == ChatRole.User,
+                    showMessageFooter = true,
+                    isMessageRead = chatMessage.status == ChatMessageStatus.SENT
+                )
             )
+
+//            MessageLine(
+//                message = chatMessage,
+//                conversationId = conversationId,
+//                isLast = index == 0,
+//                onClickCopy = onClickCopy,
+//                onClickShare = onClickShare,
+//                onRetry = onRetry,
+//                hapticFeedback = hapticFeedback,
+//            )
         }
     }
 

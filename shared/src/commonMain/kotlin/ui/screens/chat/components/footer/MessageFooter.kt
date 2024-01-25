@@ -25,13 +25,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-
+import kotlinx.datetime.Clock
+import kotlinx.datetime.DatePeriod
+import kotlinx.datetime.Instant
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.minus
+import kotlinx.datetime.toLocalDateTime
 import model.MessageItemState
 import org.jetbrains.compose.resources.painterResource
 import ui.images.AppImages
@@ -57,21 +61,30 @@ public fun MessageFooter(
                 modifier = Modifier.padding(top = 4.dp, bottom = 4.dp),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
+                val dateStr = if (message.createdAt != null) formatDate(message.createdAt) else ""
+                val textContent = when {
+                    messageItem.isMine -> {
+                        dateStr
+                    } else -> {
+                        (messageItem.currentUser?.name ?: "") + " " + dateStr
+                    }
+                }
+                Text(
+                    modifier = Modifier
+                        .padding(end = 8.dp)
+                        .weight(1f, fill = false),
+                    text = textContent,
+                    style = TextStyle(
+                        fontSize = 12.sp,
+                        lineHeight = 20.sp,
+                        fontWeight = FontWeight.W400,
+                    ),
+                    overflow = TextOverflow.Ellipsis,
+                    maxLines = 1,
+                    color = Color(0xFF72767E),
+                )
                 if (!messageItem.isMine) {
-                    Text(
-                        modifier = Modifier
-                            .padding(end = 8.dp)
-                            .weight(1f, fill = false),
-                        text = messageItem.currentUser?.name ?: "",
-                        style = TextStyle(
-                            fontSize = 12.sp,
-                            lineHeight = 20.sp,
-                            fontWeight = FontWeight.W400,
-                        ),
-                        overflow = TextOverflow.Ellipsis,
-                        maxLines = 1,
-                        color = Color(0xFF72767E),
-                    )
+
                 } else {
                     MessageReadStatusIcon(
                         modifier = Modifier.padding(end = 4.dp),
@@ -81,10 +94,6 @@ public fun MessageFooter(
                     )
                 }
 
-//                val date = message.updatedAt ?: message.createdAt ?: message.createdLocallyAt
-//                if (date != null) {
-//                    Timestamp(date = date, formatType = DateFormatType.TIME)
-//                }
             }
         }
     }
@@ -133,5 +142,18 @@ public fun MessageReadStatusIcon(
             contentDescription = null,
             tint = Color(0xFF72767E),
         )
+    }
+}
+
+fun formatDate(instant: Instant): String {
+    val now = Clock.System.now()
+    val today = now.toLocalDateTime(TimeZone.currentSystemDefault()).date
+    val yesterday = today.minus(DatePeriod(0, 0,1))
+    val date = instant.toLocalDateTime(TimeZone.currentSystemDefault()).date
+
+    return when {
+        date == today -> instant.toLocalDateTime(TimeZone.currentSystemDefault()).time.toString().substring(0, 5)
+        date == yesterday -> "昨天"
+        else -> date.toString()
     }
 }

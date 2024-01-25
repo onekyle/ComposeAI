@@ -134,7 +134,6 @@ public fun MessageItem(
         DefaultMessageItemTrailingContent(messageItem = it)
     },
 ) {
-    val message = messageItem.message
     val clickModifier = Modifier.combinedClickable(
         interactionSource = remember { MutableInteractionSource() },
         indication = null,
@@ -398,6 +397,26 @@ internal fun DefaultMessageTextContent(
             onLongItemClick = onLongItemClick,
         )
     }
+}
+
+/**
+ * The default message item content.
+ *
+ * @param messageItem The message item to show.
+ * @param onLongItemClick Handler when the user long taps on an item.
+ * @param onReactionsClick Handler when the user taps on message reactions.
+ * @param onThreadClick Handler when the user clicks on the message thread.
+ * @param onGiphyActionClick Handler when the user selects a Giphy action.
+ * @param onQuotedMessageClick Handler for quoted message click action.
+ * @param onMediaGalleryPreviewResult Handler when the user receives a result from the Media Gallery Preview.
+ */
+@Composable
+internal fun DefaultMessageItem(
+    messageItem: MessageItemState,
+) {
+    MessageItem(
+        messageItem = messageItem,
+    )
 }
 
 
