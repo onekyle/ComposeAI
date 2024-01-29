@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
-import com.ebfstudio.appgpt.common.MainRes
+import com.kyle.bugeaichat.common.MainRes
 import di.getScreenModel
 import org.jetbrains.compose.resources.painterResource
 import ui.components.appImagePath

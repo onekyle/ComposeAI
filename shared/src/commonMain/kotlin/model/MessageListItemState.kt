@@ -17,7 +17,7 @@
 package model
 
 import androidx.compose.ui.graphics.painter.Painter
-import com.ebfstudio.appgpt.common.ChatMessageEntity
+import com.kyle.bugeaichat.common.ChatMessageEntity
 import kotlinx.datetime.Instant
 
 /**

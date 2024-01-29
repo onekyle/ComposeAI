@@ -1,6 +1,5 @@
 package ui.screens.bank
 
-import androidx.compose.animation.Crossfade
 import androidx.compose.animation.animateColor
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.VectorConverter
@@ -13,23 +12,17 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.GeneratingTokens
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Icon
-import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Surface
@@ -44,18 +37,15 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.bottomSheet.LocalBottomSheetNavigator
-import com.ebfstudio.appgpt.common.MainRes
+import com.kyle.bugeaichat.common.MainRes
 import di.getScreenModel
 import org.jetbrains.compose.resources.painterResource
-import ui.components.AnimatedCounter
-import ui.components.rememberAdsState
 import ui.components.rememberSubscriptionState
 import ui.images.AppImages
 
@@ -202,100 +192,11 @@ internal object BankScreen : Screen {
 
             Spacer(modifier = Modifier.height(32.dp))
 
-            AdsCard(
-                tokens = uiState.coins,
-                onRewardEarned = onRewardEarned
-            )
-
             Spacer(modifier = Modifier.height(16.dp))
 
             SubscriptionCard(uiState = uiState)
 
             Spacer(modifier = Modifier.height(16.dp))
-        }
-    }
-
-    @Composable
-    private fun AdsCard(
-        tokens: Int,
-        onRewardEarned: (Int) -> Unit
-    ) {
-        val adsState = rememberAdsState(onRewardEarned)
-
-        OutlinedCard(
-            onClick = adsState::show,
-            enabled = adsState.isLoaded,
-            border = BorderStroke(1.dp, MaterialTheme.colorScheme.surfaceVariant),
-            modifier = Modifier
-                .padding(horizontal = 16.dp)
-                .widthIn(max = 400.dp)
-        ) {
-            Box(modifier = Modifier) {
-                Crossfade(
-                    targetState = adsState.isLoaded,
-
-                    modifier = Modifier
-                        .align(Alignment.TopEnd)
-                        .padding(16.dp)
-                ) {
-                    when (it) {
-                        false -> Box(
-                            contentAlignment = Alignment.TopEnd,
-                            modifier = Modifier.width(100.dp),
-                        ) {
-                            CircularProgressIndicator(
-                                modifier = Modifier.size(24.dp),
-                            )
-                        }
-
-                        true -> Box(
-                            contentAlignment = Alignment.TopEnd,
-                            modifier = Modifier.width(100.dp),
-                        ) {
-                            Row {
-                                Icon(
-                                    Icons.Rounded.GeneratingTokens,
-                                    contentDescription = null,
-                                    tint = MaterialTheme.colorScheme.primary,
-                                )
-                                Spacer(Modifier.width(4.dp))
-                                AnimatedCounter(
-                                    count = tokens,
-                                    fontWeight = FontWeight.Bold,
-                                    style = LocalTextStyle.current.copy(
-                                        color = MaterialTheme.colorScheme.primary,
-                                    )
-                                )
-                            }
-                        }
-                    }
-                }
-
-                Column(
-                    modifier = Modifier
-                        .padding(16.dp)
-                        .fillMaxWidth()
-                ) {
-                    Text(
-                        text = MainRes.string.bank_card_ad_tokens.uppercase(),
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        letterSpacing = 1.8.sp,
-                    )
-
-                    Text(
-                        text = MainRes.string.bank_card_ad_title.uppercase(),
-                        style = MaterialTheme.typography.headlineMedium,
-                        modifier = Modifier.padding(top = 16.dp, bottom = 8.dp)
-                    )
-
-                    Text(
-                        text = MainRes.string.bank_card_ad_subtitle,
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    )
-                }
-            }
         }
     }
 

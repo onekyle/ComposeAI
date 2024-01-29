@@ -3,6 +3,7 @@ package di
 import androidx.compose.runtime.Composable
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.rememberScreenModel
+import cafe.adriel.voyager.core.registry.rememberScreen
 import cafe.adriel.voyager.core.screen.Screen
 import org.koin.core.parameter.ParametersDefinition
 import org.koin.core.qualifier.Qualifier

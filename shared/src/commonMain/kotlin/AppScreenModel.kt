@@ -1,5 +1,3 @@
-
-import AppScreenUiState.Loading
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -17,7 +15,7 @@ class AppScreenModel : KoinComponent {
     private val preferenceRepository: PreferenceRepository by inject()
     private val coroutineScope: CoroutineScope = MainScope()
 
-    var uiState: AppScreenUiState by mutableStateOf(Loading)
+    var uiState: AppScreenUiState by mutableStateOf(AppScreenUiState.Loading)
         private set
 
     init {

@@ -2,7 +2,7 @@ package data.database
 
 import app.cash.sqldelight.db.SqlDriver
 import app.cash.sqldelight.driver.native.NativeSqliteDriver
-import com.ebfstudio.appgpt.common.Database
+import com.kyle.bugeaichat.common.Database
 
 actual class DriverFactory {
     actual fun createDriver(): SqlDriver {

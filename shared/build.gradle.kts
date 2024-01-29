@@ -24,12 +24,12 @@ kotlin {
 
     cocoapods {
         version = "1.0.0"
-        summary = "Some description for the Shared Module"
+        summary = "Some description for the BugeAIChat Module"
         homepage = "Link to the Shared Module homepage"
         ios.deploymentTarget = "14.1"
         podfile = project.file("../iosApp/Podfile")
         framework {
-            baseName = "shared"
+            baseName = "BugeAIChat"
             isStatic = true
         }
         extraSpecAttributes["resources"] = "['src/commonMain/resources/**', 'src/iosMain/resources/**']"
@@ -147,7 +147,7 @@ compose {
 }
 
 android {
-    namespace = "com.ebfstudio.appgpt.common"
+    namespace = "com.kyle.bugeaichat.common"
     compileSdk = (findProperty("android.compileSdk") as String).toInt()
 
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
@@ -173,7 +173,7 @@ android {
 }
 
 buildkonfig {
-    packageName = "com.ebfstudio.appgpt.common"
+    packageName = "com.kyle.bugeaichat.common"
 
     val props = Properties()
 
@@ -201,7 +201,7 @@ buildkonfig {
 sqldelight {
     databases {
         create("Database") {
-            packageName.set("com.ebfstudio.appgpt.common")
+            packageName.set("com.kyle.bugeaichat.common")
             schemaOutputDirectory.set(file("src/commonMain/sqldelight/databases"))
         }
     }

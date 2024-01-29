@@ -19,7 +19,7 @@ package ui.screens.chat.components
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.ebfstudio.appgpt.common.ChatMessageEntity
+import com.kyle.bugeaichat.common.ChatMessageEntity
 import model.User
 
 /**

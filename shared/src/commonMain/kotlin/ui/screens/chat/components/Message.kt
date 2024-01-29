@@ -40,7 +40,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.aallam.openai.api.chat.ChatRole
-import com.ebfstudio.appgpt.common.ChatMessageEntity
+import com.kyle.bugeaichat.common.ChatMessageEntity
 import com.seiko.imageloader.rememberAsyncImagePainter
 import expect.platform
 import model.AppPlatform

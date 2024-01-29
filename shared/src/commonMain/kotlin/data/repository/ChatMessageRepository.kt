@@ -13,8 +13,8 @@ import com.aallam.openai.api.chat.chatCompletionRequest
 import com.aallam.openai.api.model.ModelId
 import com.aallam.openai.client.OpenAI
 import com.benasher44.uuid.uuid4
-import com.ebfstudio.appgpt.common.ChatMessageEntity
-import com.ebfstudio.appgpt.common.ChatMessageEntityQueries
+import com.kyle.bugeaichat.common.ChatMessageEntity
+import com.kyle.bugeaichat.common.ChatMessageEntityQueries
 import data.local.PreferenceLocalDataSource
 import data.repository.util.suspendRunCatching
 import expect.platform

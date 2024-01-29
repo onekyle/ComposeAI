@@ -1,7 +1,7 @@
 package model
 
-import com.ebfstudio.appgpt.common.ChatEntity
-import com.ebfstudio.appgpt.common.GetAllChats
+import com.kyle.bugeaichat.common.ChatEntity
+import com.kyle.bugeaichat.common.GetAllChats
 import kotlinx.datetime.Instant
 
 fun GetAllChats.toChats(): ChatEntity = ChatEntity(

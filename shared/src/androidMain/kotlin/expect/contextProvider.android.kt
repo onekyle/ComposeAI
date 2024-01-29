@@ -4,6 +4,9 @@ import android.app.Activity
 import android.app.Application
 import android.content.Context
 import android.os.Bundle
+import di.initKoin
+import org.koin.android.ext.koin.androidContext
+import ui.components.appContextForImagesMP
 
 actual class ContextProvider private constructor() {
     companion object {
@@ -12,6 +15,10 @@ actual class ContextProvider private constructor() {
 
         private var currentActivity: Activity? = null
         fun initialize(application: Application) {
+            appContextForImagesMP = application
+            initKoin {
+                androidContext(application)
+            }
             applicationContext = application.applicationContext
 
             // 注册一个回调监听当前 Activity

@@ -15,13 +15,20 @@ actual fun showPlatformSpecificAlert(
         title, message, UIAlertControllerStyleAlert
     )
 
-    val defaultAction = UIAlertAction.actionWithTitle(
-        "确定", UIAlertActionStyleDefault
+    val destrutiveStyle: platform.UIKit.UIAlertActionStyle = 2
+    val clearAction = UIAlertAction.actionWithTitle(
+        "清除", destrutiveStyle
     ) { _ ->
         onConfirm()
     }
 
+    val defaultAction = UIAlertAction.actionWithTitle(
+        "取消", UIAlertActionStyleDefault
+    ) {}
+
+
     alertController.addAction(defaultAction)
+    alertController.addAction(clearAction)
 
     // Find the current UIViewController that is presented, which may be a UINavigationController or other.
     val rootViewController = UIApplication.sharedApplication.keyWindow?.rootViewController

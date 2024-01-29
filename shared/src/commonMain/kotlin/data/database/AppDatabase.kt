@@ -4,9 +4,9 @@ import app.cash.sqldelight.ColumnAdapter
 import app.cash.sqldelight.EnumColumnAdapter
 import app.cash.sqldelight.db.SqlDriver
 import com.aallam.openai.api.chat.ChatRole
-import com.ebfstudio.appgpt.common.ChatEntity
-import com.ebfstudio.appgpt.common.ChatMessageEntity
-import com.ebfstudio.appgpt.common.Database
+import  com.kyle.bugeaichat.common.ChatEntity
+import  com.kyle.bugeaichat.common.ChatMessageEntity
+import  com.kyle.bugeaichat.common.Database
 import kotlinx.datetime.Instant
 
 object AppDatabase {

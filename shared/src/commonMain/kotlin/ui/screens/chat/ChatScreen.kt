@@ -69,7 +69,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.bottomSheet.LocalBottomSheetNavigator
-import com.ebfstudio.appgpt.common.MainRes
+import com.kyle.bugeaichat.common.MainRes
 import di.getScreenModel
 import expect.showPlatformSpecificAlert
 import kotlinx.coroutines.launch

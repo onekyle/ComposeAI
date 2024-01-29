@@ -20,12 +20,12 @@ plugins {
 
 android {
     compileSdk = (findProperty("android.compileSdk") as String).toInt()
-    namespace = "com.ebfstudio.appgpt"
+    namespace = "com.kyle.bugeaichat"
 
     // sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
 
     defaultConfig {
-        applicationId = "com.ebfstudio.appgpt"
+        applicationId = "com.kyle.bugeaichat"
         minSdk = (findProperty("android.minSdk") as String).toInt()
         targetSdk = (findProperty("android.targetSdk") as String).toInt()
         versionCode = 24

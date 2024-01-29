@@ -10,9 +10,9 @@ import analytics.logMessageShared
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.coroutineScope
 import com.aallam.openai.api.baichuan.BCCharacter
-import com.ebfstudio.appgpt.common.ChatEntity
-import com.ebfstudio.appgpt.common.ChatMessageEntity
-import com.ebfstudio.appgpt.common.GetAllChats
+import com.kyle.bugeaichat.common.ChatEntity
+import com.kyle.bugeaichat.common.ChatMessageEntity
+import com.kyle.bugeaichat.common.GetAllChats
 import data.repository.BillingRepository
 import data.repository.ChatMessageRepository
 import data.repository.ChatRepository

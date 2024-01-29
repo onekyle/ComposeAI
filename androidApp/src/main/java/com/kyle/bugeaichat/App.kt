@@ -1,4 +1,4 @@
-package com.ebfstudio.appgpt
+package com.kyle.bugeaichat
 
 //import com.google.firebase.FirebaseApp
 //import com.google.firebase.analytics.ktx.analytics
@@ -8,14 +8,11 @@ package com.ebfstudio.appgpt
 //import com.google.firebase.ktx.Firebase
 import analytics.CrashlyticsAntilog
 import android.app.Application
-import com.ebfstudio.appgpt.common.BuildConfig
 import com.google.android.gms.ads.MobileAds
-import di.initKoin
+import com.kyle.bugeaichat.common.BuildConfig
 import expect.ContextProvider
 import io.github.aakira.napier.DebugAntilog
 import io.github.aakira.napier.Napier
-import org.koin.android.ext.koin.androidContext
-import ui.components.appContextForImagesMP
 
 class App : Application() {
 
@@ -23,7 +20,6 @@ class App : Application() {
         super.onCreate()
 
         ContextProvider.initialize(this)
-        appContextForImagesMP = this@App
 
         // Init App Check
 //        FirebaseApp.initializeApp(applicationContext)
@@ -33,18 +29,13 @@ class App : Application() {
 //        )
 
         // Init Firebase Analytics & Crashlytics in production only
-        val enabled = BuildConfig.DEBUG.not()
+//        val enabled = BuildConfig.DEBUG.not()
 //        Firebase.analytics.setAnalyticsCollectionEnabled(enabled)
 //        Firebase.crashlytics.setCrashlyticsCollectionEnabled(enabled)
 
         // Init Napier
         val antilog = if (BuildConfig.DEBUG) DebugAntilog() else CrashlyticsAntilog()
         Napier.base(antilog)
-
-        // Init Koin
-        initKoin {
-            androidContext(this@App)
-        }
 
         // AdMob
         MobileAds.initialize(this)

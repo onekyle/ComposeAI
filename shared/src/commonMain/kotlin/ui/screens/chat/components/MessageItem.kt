@@ -45,7 +45,7 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
-import com.ebfstudio.appgpt.common.ChatMessageEntity
+import com.kyle.bugeaichat.common.ChatMessageEntity
 import model.MessageItemState
 import model.User
 import model.isFailed

@@ -1,9 +1,3 @@
-
-import AppScreenUiState.Loading
-import AppScreenUiState.Success
-import analytics.AnalyticsHelper
-import analytics.AnalyticsInjected
-import analytics.LocalAnalyticsHelper
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -18,6 +12,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.bottomSheet.BottomSheetNavigator
+import analytics.AnalyticsHelper
+import analytics.AnalyticsInjected
+import analytics.LocalAnalyticsHelper
 import ui.screens.chat.ChatScreen
 import ui.theme.AppTheme
 
@@ -33,8 +30,8 @@ fun App(
 
     val screen = appScreenModel.uiState.let { uiState ->
         when (uiState) {
-            Loading -> null
-            is Success -> ChatScreen
+            AppScreenUiState.Loading -> null
+            is AppScreenUiState.Success -> ChatScreen
         }
     }
 

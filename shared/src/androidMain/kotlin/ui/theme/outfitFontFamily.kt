@@ -3,7 +3,7 @@ package ui.theme
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import com.ebfstudio.appgpt.common.R
+import com.kyle.bugeaichat.common.R
 
 actual suspend fun outfitFontFamily(): FontFamily {
     return FontFamily(

@@ -4,9 +4,9 @@ import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToList
 import app.cash.sqldelight.coroutines.mapToOne
 import com.benasher44.uuid.uuid4
-import com.ebfstudio.appgpt.common.ChatEntity
-import com.ebfstudio.appgpt.common.ChatEntityQueries
-import com.ebfstudio.appgpt.common.GetAllChats
+import com.kyle.bugeaichat.common.ChatEntity
+import com.kyle.bugeaichat.common.ChatEntityQueries
+import com.kyle.bugeaichat.common.GetAllChats
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow

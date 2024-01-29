@@ -2,7 +2,7 @@ package model
 
 import com.aallam.openai.api.chat.ChatMessage
 import com.aallam.openai.api.chat.ChatRole
-import com.ebfstudio.appgpt.common.ChatMessageEntity
+import com.kyle.bugeaichat.common.ChatMessageEntity
 import kotlinx.datetime.Instant
 
 enum class ChatMessageStatus {
