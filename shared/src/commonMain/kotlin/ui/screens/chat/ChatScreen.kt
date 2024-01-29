@@ -71,6 +71,7 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.bottomSheet.LocalBottomSheetNavigator
 import com.kyle.bugeaichat.common.MainRes
 import di.getScreenModel
+import expect.didClickNaviBackButton
 import expect.showPlatformSpecificAlert
 import kotlinx.coroutines.launch
 import model.User
@@ -237,7 +238,7 @@ internal object ChatScreen : Screen {
                 MessageListHeader(
                     currentUser = assistant,
                     onBackPressed = {
-
+                        didClickNaviBackButton()
                     },
                     onChannelAvatarClick = {
                         showPlatformSpecificAlert(
