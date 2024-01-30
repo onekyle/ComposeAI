@@ -40,7 +40,7 @@ val commonModule = module {
     // ScreenModels
     factoryOf(::AppScreenModel)
     factoryOf(::WelcomeScreenModel)
-    factory { params -> ChatScreenModel(get(), get(), get(), get(), get(), get(), initialChatId = params.getOrNull(), chatUser = BCCharacter(id = 20306, characterName = "BUGE AI", characterIcon = "https://commercial-character-platform.oss-cn-beijing.aliyuncs.com/ea9b134170ca168b842c2070dSnipaste_2024-01-10_14-10-30.png")) }
+    factory { params -> ChatScreenModel(get(), get(), get(), get(), get(), get(), initialChatId = params.getOrNull(), chatUser = BCCharacter(id = 20306, characterName = "BB", characterIcon = "https://commercial-character-platform.oss-cn-beijing.aliyuncs.com/ea9b134170ca168b842c2070dSnipaste_2024-01-10_14-10-30.png")) }
     factoryOf(::BankViewModel)
 
     // Repositories

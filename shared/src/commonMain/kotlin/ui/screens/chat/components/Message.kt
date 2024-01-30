@@ -62,6 +62,7 @@ fun Messages(
 ) {
     val reverseMessages = remember(messages) { messages.reversed() }
     val listState = rememberLazyListState()
+    // 创建滚动条适配器，它将根据 LazyColumn 的滚动状态显示滚动条
     val hapticFeedback = rememberHapticFeedback()
     val userMine = User(name = "我", icon = "")
     LazyColumn(

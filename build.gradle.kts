@@ -18,3 +18,11 @@ buildscript {
 //        classpath(libs.firebase.crashlytics.gradle)
     }
 }
+
+//gradle.taskGraph.whenReady {
+//    allTasks.forEach { task ->
+//        if (task.name.contains("DebugFramework")) {
+//            task.enabled = false
+//        }
+//    }
+//}

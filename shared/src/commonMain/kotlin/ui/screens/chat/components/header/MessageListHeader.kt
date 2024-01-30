@@ -49,6 +49,8 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import expect.platform
+import model.AppPlatform
 import model.User
 import ui.screens.chat.components.ImageAvatar
 
@@ -102,23 +104,27 @@ public fun MessageListHeader(
         )
     },
 ) {
+    val statusBarHeight = if (platform() == AppPlatform.ANDROID) 0.dp else 44.dp;
     Surface(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth().height(statusBarHeight + 56.dp),
         elevation = elevation,
         color = color,
         shape = shape,
     ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(8.dp),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            leadingContent()
+        Column {
+            Row ( modifier = Modifier.fillMaxWidth().height(statusBarHeight)) {}
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth().height(56.dp)
+                    .padding(8.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                leadingContent()
 
-            centerContent()
+                centerContent()
 
-            trailingContent()
+                trailingContent()
+            }
         }
     }
 }
@@ -167,7 +173,7 @@ public fun DefaultMessageListHeaderCenterContent(
 ) {
     val title = currentUser?.name ?: ""
 
-    val subtitle = "Connected"
+    val subtitle = "BugeAI伴侣"
 
     Column(
         modifier = modifier
@@ -212,8 +218,8 @@ internal fun DefaultMessageListHeaderSubtitle(
 ) {
     val textColor = Color(0xFF72767E)
     val textStyle = TextStyle(
-        fontSize = 12.sp,
-        lineHeight = 20.sp,
+        fontSize = 10.sp,
+        lineHeight = 13.sp,
         fontWeight = FontWeight.W400,
     )
     Text(

@@ -35,19 +35,14 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ModalDrawerSheet
-import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.NavigationDrawerItemDefaults
-import androidx.compose.material3.PermanentDrawerSheet
-import androidx.compose.material3.PermanentNavigationDrawer
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -72,12 +67,13 @@ import cafe.adriel.voyager.navigator.bottomSheet.LocalBottomSheetNavigator
 import com.kyle.bugeaichat.common.MainRes
 import di.getScreenModel
 import expect.didClickNaviBackButton
+import expect.platform
 import expect.showPlatformSpecificAlert
 import kotlinx.coroutines.launch
+import model.AppPlatform
 import model.User
 import org.koin.core.parameter.parametersOf
 import ui.components.TypewriterText
-import ui.components.rememberInAppReviewState
 import ui.screens.bank.BankScreen
 import ui.screens.chat.components.Messages
 import ui.screens.chat.components.header.MessageListHeader
@@ -92,16 +88,16 @@ internal object ChatScreen : Screen {
         val chatsUiState by screenModel.chatsUiState.collectAsState()
         val localClipboardManager = LocalClipboardManager.current
 
-        val inAppReviewState = rememberInAppReviewState(
-            onComplete = screenModel::onInAppReviewComplete,
-            onError = screenModel::onInAppReviewError,
-        )
-        LaunchedEffect(screenUiState.actionShowInAppReview) {
-            if (screenUiState.actionShowInAppReview) {
-                inAppReviewState.show()
-                screenModel.onInAppReviewShown()
-            }
-        }
+//        val inAppReviewState = rememberInAppReviewState(
+//            onComplete = screenModel::onInAppReviewComplete,
+//            onError = screenModel::onInAppReviewError,
+//        )
+//        LaunchedEffect(screenUiState.actionShowInAppReview) {
+//            if (screenUiState.actionShowInAppReview) {
+//                inAppReviewState.show()
+//                screenModel.onInAppReviewShown()
+//            }
+//        }
 
         ChatScreen(
             onSend = screenModel::onSendMessage,
@@ -143,24 +139,28 @@ internal object ChatScreen : Screen {
         BoxWithConstraints {
             val maxWidth = maxWidth
             if (maxWidth < 600.dp) {
-                ModalNavigationDrawer(
-                    drawerState = drawerState,
-                    drawerContent = {
-                        ModalDrawerSheet {
-                            ChatDrawerContent(
-                                showCreateChatButton = false,
-                                chatsUiState = chatsUiState,
-                                currentChatUiState = currentChatUiState,
-                                onNewChat = onNewChat,
-                                onChatSelected = onChatSelected,
-                                onCloseDrawer = { scope.launch { drawerState.close() } }
-                            )
-                        }
-                    },
-
-                ) {
+                ChatScreenContent(
+                    showTopBarActions = true,
+                    onClickCopy = onClickCopy,
+                    onClickShare = onClickShare,
+                    onTextChange = onTextChange,
+                    onSend = onSend,
+                    onRetry = onRetry,
+                    onNewChat = onNewChat,
+                    onClearChat = onClearChat,
+                    screenUiState = screenUiState,
+                    currentChatUiState = currentChatUiState,
+                    onMenuClick = { scope.launch { drawerState.open() } },
+                    assistant = assistant
+                )
+            } else {
+                Row {
+                    Divider(
+                        color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.2f),
+                        modifier = Modifier.width(1.dp).fillMaxHeight()
+                    )
                     ChatScreenContent(
-                        showTopBarActions = true,
+                        showTopBarActions = false,
                         onClickCopy = onClickCopy,
                         onClickShare = onClickShare,
                         onTextChange = onTextChange,
@@ -173,42 +173,6 @@ internal object ChatScreen : Screen {
                         onMenuClick = { scope.launch { drawerState.open() } },
                         assistant = assistant
                     )
-                }
-            } else {
-                PermanentNavigationDrawer(
-                    drawerContent = {
-                        PermanentDrawerSheet(Modifier.width(maxWidth / 5 * 2)) {
-                            ChatDrawerContent(
-                                showCreateChatButton = true,
-                                chatsUiState = chatsUiState,
-                                currentChatUiState = currentChatUiState,
-                                onNewChat = onNewChat,
-                                onChatSelected = onChatSelected,
-                                onCloseDrawer = { scope.launch { drawerState.close() } },
-                            )
-                        }
-                    }
-                ) {
-                    Row {
-                        Divider(
-                            color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.2f),
-                            modifier = Modifier.width(1.dp).fillMaxHeight()
-                        )
-                        ChatScreenContent(
-                            showTopBarActions = false,
-                            onClickCopy = onClickCopy,
-                            onClickShare = onClickShare,
-                            onTextChange = onTextChange,
-                            onSend = onSend,
-                            onRetry = onRetry,
-                            onNewChat = onNewChat,
-                            onClearChat = onClearChat,
-                            screenUiState = screenUiState,
-                            currentChatUiState = currentChatUiState,
-                            onMenuClick = { scope.launch { drawerState.open() } },
-                            assistant = assistant
-                        )
-                    }
                 }
             }
         }
@@ -320,7 +284,7 @@ internal object ChatScreen : Screen {
                     NavigationDrawerItem(
                         label = {
                             Text(
-                                text = chat.title ?: MainRes.string.chat_title_empty,
+                                text = "hahahhaha", //chat.title ?: MainRes.string.chat_title_empty,
                                 overflow = TextOverflow.Ellipsis,
                                 softWrap = false
                             )
@@ -446,9 +410,10 @@ internal object ChatScreen : Screen {
                             .height(2.dp)
                     )
                 }
+                val bottomPadding = if (platform() == AppPlatform.ANDROID) 20.dp else 34.dp
                 Row(
                     modifier = Modifier
-                        .padding(start = 8.dp, top = 8.dp, end = 8.dp, bottom = 20.dp), // 设置边距
+                        .padding(start = 8.dp, top = 8.dp, end = 8.dp, bottom = bottomPadding), // 设置边距
                     verticalAlignment = Alignment.Bottom,
                 ) {
                     // Rewards button
